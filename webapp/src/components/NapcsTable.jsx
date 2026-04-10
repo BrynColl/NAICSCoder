@@ -40,7 +40,7 @@ export default function NapcsTable({ napcsEntry }) {
           <tr>
             <th style={{ width: '2.5rem' }}>#</th>
             <th>Product</th>
-            <th className="revenue-cell">Revenue ($1K)</th>
+            <th className="revenue-cell">Revenue ($)</th>
             <th className="pct-cell">% of Total</th>
           </tr>
         </thead>

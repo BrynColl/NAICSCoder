@@ -60,6 +60,16 @@ export default function CodeCard({ data }) {
           </div>
         )}
 
+        {/* Establishments */}
+        <div className="card-field">
+          <div className="card-field-label">Establishments</div>
+          <div className="card-field-value">
+            {rec.establishments != null && rec.establishments !== 0
+              ? rec.establishments.toLocaleString()
+              : 'NULL'}
+          </div>
+        </div>
+
         {/* Description */}
         <div className="card-field">
           <div className="card-field-label">Description</div>
