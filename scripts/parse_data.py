@@ -2,7 +2,8 @@
 parse_data.py — Convert NAICS_Coder_V3.xlsx and NAPCS_ranks.xlsx to JSON.
 
 Outputs:
-  webapp/public/data/naics.json   — NAICS hierarchy (all levels 2-6)
+  webapp/public/data/naics.json   — NAICS hierarchy (all levels 2-6), includes
+                                    establishments count from TotalRev
   webapp/public/data/napcs.json   — Top-5 NAPCS products per 6-digit NAICS
 
 Run from the repo root:
@@ -97,8 +98,50 @@ def parse_naics():
                 "revenue": row.get("G", ""),
             })
 
-    print(f"NAICS records: {len(records)}")
+    # Augment with establishments count from TotalRev sheet
+    estab = parse_establishments()
+    for rec in records:
+        rec["establishments"] = estab.get(rec["code"], None)
+
+    print(f"NAICS records: {len(records)}, with establishments data: {sum(1 for r in records if r['establishments'] is not None)}")
     return records
+
+
+# ---------------------------------------------------------------------------
+# Establishments count (TotalRev sheet — total row per NAICS code)
+# ---------------------------------------------------------------------------
+
+def parse_establishments():
+    """Return dict of {naics_code_str: establishments_int} from TotalRev.
+
+    NAICS_Coder_V3.xlsx TotalRev layout:
+      col C = NAICS2022 (string), col E = NAPCS2022_LABEL, col F = ESTAB
+    Only rows where label == "Total" are industry totals.
+    """
+    estab = {}
+    with zipfile.ZipFile(NAICS_XLSX) as z:
+        ss = load_shared_strings(z)
+        names = sheet_names(z)
+        sheet_idx = names.index("TotalRev") + 1
+        sheet_path = f"xl/worksheets/sheet{sheet_idx}.xml"
+
+        rows = iter_rows(z, sheet_path, ss)
+        next(rows)  # skip header
+
+        for row in rows:
+            label = row.get("E", "")
+            if label != "Total":
+                continue
+            naics_code = row.get("C", "").strip()
+            if not naics_code:
+                continue
+            raw_estab = row.get("F", "")
+            try:
+                estab[naics_code] = int(float(raw_estab)) if raw_estab else None
+            except ValueError:
+                estab[naics_code] = None
+
+    return estab
 
 
 # ---------------------------------------------------------------------------
