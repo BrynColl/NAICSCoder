@@ -1,5 +1,7 @@
 import { isNoNapcsFlag, formatRevThousands } from '../data/loader.js'
 
+const isDetailLine = (code) => !String(code).endsWith('000')
+
 export default function NapcsTable({ napcsEntry }) {
   if (!napcsEntry) {
     return (
@@ -52,6 +54,7 @@ export default function NapcsTable({ napcsEntry }) {
                 <div style={{ fontWeight: 500, fontSize: '0.88rem' }}>{p.label}</div>
                 <div className="mono" style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.1rem' }}>
                   {p.code}
+                  {isDetailLine(p.code) && <span className="dl-tag">DL</span>}
                 </div>
               </td>
               <td className="revenue-cell">
