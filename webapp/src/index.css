@@ -239,6 +239,20 @@ header.app-header h1 {
   color: #5a4000;
 }
 
+/* ── DL tag ──────────────────────────────────────────── */
+.dl-tag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
 /* ── Back to top ─────────────────────────────────────── */
 .back-to-top {
   position: fixed;
