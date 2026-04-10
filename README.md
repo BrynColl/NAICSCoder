@@ -1,4 +1,5 @@
 # NAICS Coder
+https://bryncoll.github.io/NAICSCoder/#/level/2
 
 A static React web app for browsing the 2022 NAICS industry hierarchy and, for each 6-digit national industry, viewing the top NAPCS products by Economic Census revenue.
 
