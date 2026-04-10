@@ -4,6 +4,7 @@ import { loadData } from './data/loader.js'
 import SliceNav from './components/SliceNav.jsx'
 import CodeList from './components/CodeList.jsx'
 import CodeCard from './components/CodeCard.jsx'
+import BackToTop from './components/BackToTop.jsx'
 
 export default function App() {
   const [data, setData] = useState(null)
@@ -44,6 +45,7 @@ export default function App() {
       <AppHeader />
       <div className="main-content">
         <SliceNav />
+        <BackToTop />
         <Routes>
           <Route path="/" element={<Navigate to="/level/2" replace />} />
           <Route
